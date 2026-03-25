@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { swatches, collections, colorGroups } from "./data/swatches";
 import type { Swatch } from "./data/swatches";
 import { Header } from "./components/Header";
@@ -45,6 +45,70 @@ function App() {
 
   const hasFilters = !!search || !!selectedCollection || !!selectedColorGroup;
 
+  // In embed mode: send swatch detail to parent window for overlay rendering
+  const sendDetailToParent = useCallback((swatch: Swatch | null) => {
+    if (!isEmbed || !window.parent) return;
+    if (!swatch) {
+      window.parent.postMessage({ type: "castilo-stalen-detail-close" }, "*");
+      return;
+    }
+    const idx = filtered.findIndex((s) => s.id === swatch.id);
+    window.parent.postMessage({
+      type: "castilo-stalen-detail",
+      swatch: {
+        nameLabel: swatch.nameLabel,
+        code: swatch.code,
+        collectionLabel: swatch.collectionLabel,
+        colorGroup: swatch.colorGroup,
+        image: new URL(swatch.image, window.location.origin).href,
+      },
+      hasPrev: idx > 0,
+      hasNext: idx < filtered.length - 1,
+    }, "*");
+  }, [filtered]);
+
+  const handleSelect = useCallback((swatch: Swatch) => {
+    setSelectedSwatch(swatch);
+    if (isEmbed) sendDetailToParent(swatch);
+  }, [sendDetailToParent]);
+
+  const handleClose = useCallback(() => {
+    setSelectedSwatch(null);
+    if (isEmbed) sendDetailToParent(null);
+  }, [sendDetailToParent]);
+
+  const handleNavigate = useCallback((direction: "prev" | "next") => {
+    setSelectedSwatch((current) => {
+      if (!current) return null;
+      const idx = filtered.findIndex((s) => s.id === current.id);
+      const next = direction === "next" ? idx + 1 : idx - 1;
+      if (next >= 0 && next < filtered.length) {
+        const newSwatch = filtered[next];
+        if (isEmbed) {
+          // Send after state update
+          setTimeout(() => sendDetailToParent(newSwatch), 0);
+        }
+        return newSwatch;
+      }
+      return current;
+    });
+  }, [filtered, sendDetailToParent]);
+
+  // Listen for navigation messages from parent (embed mode)
+  useEffect(() => {
+    if (!isEmbed) return;
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === "castilo-stalen-navigate") {
+        handleNavigate(e.data.direction);
+      }
+      if (e.data?.type === "castilo-stalen-close") {
+        handleClose();
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [isEmbed, handleNavigate, handleClose]);
+
   return (
     <div className={`bg-white ${isEmbed ? "min-h-0" : "min-h-screen"}`}>
       {!isEmbed && <Header />}
@@ -74,20 +138,15 @@ function App() {
           isEmbed={isEmbed}
         />
 
-        <SwatchGrid swatches={filtered} onSelect={setSelectedSwatch} />
+        <SwatchGrid swatches={filtered} onSelect={handleSelect} />
       </main>
 
-      {selectedSwatch && (
+      {/* Only show modal inside app when NOT in embed mode */}
+      {!isEmbed && selectedSwatch && (
         <SwatchDetail
           swatch={selectedSwatch}
-          onClose={() => setSelectedSwatch(null)}
-          onNavigate={(direction) => {
-            const idx = filtered.findIndex((s) => s.id === selectedSwatch.id);
-            const next = direction === "next" ? idx + 1 : idx - 1;
-            if (next >= 0 && next < filtered.length) {
-              setSelectedSwatch(filtered[next]);
-            }
-          }}
+          onClose={handleClose}
+          onNavigate={handleNavigate}
           hasPrev={filtered.findIndex((s) => s.id === selectedSwatch.id) > 0}
           hasNext={
             filtered.findIndex((s) => s.id === selectedSwatch.id) <
