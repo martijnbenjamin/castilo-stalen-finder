@@ -26,6 +26,7 @@
   iframe.style.cssText = "width:100%;border:none;min-height:600px;display:block;";
   iframe.setAttribute("title", "Castilo Stoffencollectie");
   iframe.setAttribute("loading", "lazy");
+  iframe.setAttribute("allow", "clipboard-write");
 
   container.appendChild(iframe);
 
