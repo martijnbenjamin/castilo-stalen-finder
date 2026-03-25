@@ -47,7 +47,7 @@ function App() {
     <div className={`bg-white ${isEmbed ? "min-h-0" : "min-h-screen"}`}>
       {!isEmbed && <Header />}
 
-      <main className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 ${isEmbed ? "pt-2" : ""}`}>
+      <main className={`mx-auto px-4 sm:px-6 lg:px-8 pb-12 ${isEmbed ? "pt-2 max-w-none" : "max-w-7xl"}`}>
         {/* Collection overview when no filters active */}
         {!hasFilters && (
           <CollectionCards
