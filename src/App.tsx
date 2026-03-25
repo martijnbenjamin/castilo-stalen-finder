@@ -28,8 +28,10 @@ function App() {
       result = result.filter(
         (s) =>
           s.nameLabel.toLowerCase().includes(q) ||
+          s.name.toLowerCase().includes(q) ||
           s.code.toLowerCase().includes(q) ||
-          s.collectionLabel.toLowerCase().includes(q)
+          s.collectionLabel.toLowerCase().includes(q) ||
+          s.colorGroup.toLowerCase().includes(q)
       );
     }
     return result;
