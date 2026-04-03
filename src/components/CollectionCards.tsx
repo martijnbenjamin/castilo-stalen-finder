@@ -6,6 +6,8 @@ const COLLECTION_COLORS: Record<string, { bg: string; accent: string }> = {
   vyvafabrics_harlow: { bg: "bg-green-light", accent: "text-green" },
   vyvafabrics_pukka: { bg: "bg-yellow-light", accent: "text-primary" },
   vyvafabrics_freckle: { bg: "bg-purple-light", accent: "text-purple" },
+  amalfi: { bg: "bg-blue-light", accent: "text-blue" },
+  tretford: { bg: "bg-green-light", accent: "text-green" },
 };
 
 interface Props {
@@ -20,7 +22,7 @@ export function CollectionCards({ collections, onSelect }: Props) {
         Ontdek onze stoffen
       </h2>
       <p className="text-text-muted mb-6 max-w-2xl">
-        Bekijk onze complete collectie Vyva Fabrics meubelbekledingen. Filter op collectie, kleur of zoek op naam.
+        Bekijk onze complete collectie meubelbekledingen. Filter op collectie, kleur of zoek op naam of artikelcode.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

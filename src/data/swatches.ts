@@ -21,18 +21,28 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "red", "tomato", "fire-red", "candy-apple", "indian-red", "burgundy",
     "wine", "raspberry", "grenadine", "ruby", "rubin", "rosewood",
     "brick", "reishi", "goji-berry", "goji", "acerola", "rosehip",
-    "rhubarb", "hibiscus"
+    "rhubarb", "hibiscus",
+    // Duits (Amalfi)
+    "rot", "kirsch",
+    // Nederlands (Tretford)
+    "aalbes", "aardbei", "flamingo", "bloesem",
   ],
   Oranje: [
     "orange", "burnt-orange", "persimmon", "nasturtium", "saffron",
     "tangerine", "marigold", "apricot", "mandarin", "sunkist",
     "melon", "melba", "coral", "peach", "cobre", "safran",
-    "lox", "rum-sherbet", "winter-squash", "inca-berry"
+    "lox", "rum-sherbet", "winter-squash", "inca-berry",
+    // Duits (Amalfi)
+    "mandarijn", "grapefruit",
   ],
   Geel: [
     "yellow", "citrus", "lemon", "saffron-silk", "marigold",
     "wheat", "squash", "butternut-squash", "bee-pollen", "turmeric",
-    "mizzle"
+    "mizzle",
+    // Duits (Amalfi)
+    "limone",
+    // Nederlands (Tretford)
+    "zonnebloem", "ananas",
   ],
   Groen: [
     "green", "hunter-green", "empire-green", "china-green", "spruce",
@@ -40,25 +50,42 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "celery", "basil", "forest", "jungle", "hunter", "eucalyptus",
     "spinach", "avocado", "alfalfa", "swiss-chard", "kale",
     "moringa", "matcha", "kelp", "spirulina", "fennel", "mint-julep",
-    "guarana", "pea-flower", "noni"
+    "guarana", "pea-flower", "noni",
+    // Duits (Amalfi)
+    "grun", "pistazie", "pinie", "parakeet", "mint",
+    // Nederlands (Tretford)
+    "varen", "zeewier", "bamboe", "broccoli", "wasabi", "tijm",
+    "lariks", "appel", "den", "mos",
   ],
   Blauw: [
     "blue", "bright-blue", "light-blue", "marina", "bluejay",
     "royal-blue", "navy", "colonial-blue", "sky", "cerulean",
     "fjord", "turk", "turquoise", "sapphire", "baltic", "delft",
     "deepsea", "whale", "light-teal", "teal", "petrol", "glacier",
-    "skylight", "cadet", "majik"
+    "skylight", "cadet", "majik",
+    // Duits (Amalfi)
+    "marine", "azur", "turkis",
+    // Nederlands (Tretford)
+    "blauw", "korenbloem", "noordpool", "winter",
   ],
   Paars: [
     "purple", "purple-iris", "grape", "mauve", "lilac", "phoenician",
     "port", "orchid", "aubergine", "elderberry", "huckleberry",
-    "lotus", "rose"
+    "lotus", "rose",
+    // Duits (Amalfi)
+    "lila", "fuchsia",
+    // Nederlands (Tretford)
+    "lupine", "pruim", "lavendel", "bosbes",
   ],
   Bruin: [
     "brown", "oak-brown", "chocolate", "chocolat", "espresso", "expresso",
     "saddle-tan", "russet", "allspice", "camel", "brandy", "deep-clay",
     "luggage", "umber", "mocca", "cinnamon", "sweet-potato",
-    "cacao-bean", "carob", "khajur", "rooibos"
+    "cacao-bean", "carob", "khajur", "rooibos",
+    // Duits (Amalfi)
+    "hellbraun",
+    // Nederlands (Tretford)
+    "truffel", "schors", "aarde", "denneappel", "kastanje", "bruin",
   ],
   Neutraal: [
     "white", "snow-white", "black", "grey", "light-grey", "ocean-grey",
@@ -69,7 +96,14 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "meteor", "carbon", "jet", "windy", "smog", "coconut",
     "lucuma", "nigella", "vanilla-chai", "chamomille", "jasmin",
     "flax-seed", "tocos", "buckweed", "peru-maca", "lentils",
-    "chia-seed", "black-soybean"
+    "chia-seed", "black-soybean",
+    // Duits (Amalfi)
+    "weiss", "leinen", "buche", "auster", "titan", "grau",
+    "vanille", "anthrazit", "cashmere", "delfin", "eis", "achat",
+    // Nederlands (Tretford)
+    "berkschors", "klei", "kiezel", "champignon", "rogge", "zwam",
+    "zand", "cashew", "steen", "ijs", "toendra", "parel", "poeder",
+    "aardappel", "peer", "amandel",
   ],
 };
 
@@ -97,6 +131,8 @@ function formatCollectionLabel(id: string): string {
     vyvafabrics_harlow: "Harlow",
     vyvafabrics_pukka: "Pukka",
     vyvafabrics_silverguard: "Silverguard",
+    amalfi: "Amalfi",
+    tretford: "Tretford",
   };
   return map[id] || id;
 }
@@ -108,18 +144,21 @@ function formatCollectionDescription(id: string): string {
     vyvafabrics_harlow: "Duurzame meubelstof geïnspireerd op superfoods. Verkrijgbaar in eco-varianten.",
     vyvafabrics_pukka: "Elegante meubelstof met thee-geïnspireerde kleurnamen.",
     vyvafabrics_silverguard: "Beschermde meubelstof met vlekwerende Silverguard-technologie.",
+    amalfi: "Hoogwaardige meubelstof van Wildeman & van Leeuwen. Beschikbaar in 44 kleuren.",
+    tretford: "Geweven meubelstof met Nederlandse natuurnamen. Uitgebreid kleurenpalet van 51 tinten.",
   };
   return map[id] || "";
 }
 
 // Parse all swatch files from the known structure
 function parseSwatchFilename(filename: string, collectionDir: string): Swatch | null {
-  // Remove extension
-  const base = filename.replace(/\.jpeg$/, "");
-  // Pattern: vyvafabrics_{collection}_{code}_{name}
-  // For harlow: vyvafabrics_harlow_{code}-har_{name}
+  // Remove extension (.jpeg or .jpg)
+  const base = filename.replace(/\.jpe?g$/, "");
+  // Pattern: vyvafabrics_{collection}_{code}_{name}  (5+ parts)
+  //      or: amalfi_{code}_{name}                    (3 parts)
+  //      or: tretford_{code}_{name}                  (3 parts)
   const parts = base.split("_");
-  if (parts.length < 4) return null;
+  if (parts.length < 3) return null;
 
   // The name is always the last part
   const name = parts[parts.length - 1];
@@ -335,6 +374,105 @@ const SWATCH_FILES: Record<string, string[]> = {
     "vyvafabrics_silverguard_sg99001_black.jpeg",
     "vyvafabrics_silverguard_sg99002_carbon.jpeg",
     "vyvafabrics_silverguard_sg99243_brick.jpeg",
+  ],
+  amalfi: [
+    "amalfi_008714_sisal.jpg",
+    "amalfi_008716_black.jpg",
+    "amalfi_008717_weiss.jpg",
+    "amalfi_008718_leinen.jpg",
+    "amalfi_008719_buche.jpg",
+    "amalfi_008720_marine.jpg",
+    "amalfi_008721_delft.jpg",
+    "amalfi_008722_rot.jpg",
+    "amalfi_008723_grun.jpg",
+    "amalfi_008724_turkis.jpg",
+    "amalfi_008725_auster.jpg",
+    "amalfi_008726_melon.jpg",
+    "amalfi_008727_titan.jpg",
+    "amalfi_008728_grau.jpg",
+    "amalfi_008730_port.jpg",
+    "amalfi_008731_safran.jpg",
+    "amalfi_008732_kirsch.jpg",
+    "amalfi_010427_parakeet.jpg",
+    "amalfi_010682_orange.jpg",
+    "amalfi_013487_taupe.jpg",
+    "amalfi_013929_beige.jpg",
+    "amalfi_014128_azur.jpg",
+    "amalfi_014129_pistazie.jpg",
+    "amalfi_014130_mocca.jpg",
+    "amalfi_014131_vanille.jpg",
+    "amalfi_015867_anthrazit.jpg",
+    "amalfi_015905_fuchsia.jpg",
+    "amalfi_016265_mandarin.jpg",
+    "amalfi_019510_smoke.jpg",
+    "amalfi_019511_cashmere.jpg",
+    "amalfi_019512_nature.jpg",
+    "amalfi_019521_pinie.jpg",
+    "amalfi_019522_limone.jpg",
+    "amalfi_019868_baltic.jpg",
+    "amalfi_020646_hellbraun.jpg",
+    "amalfi_021770_rose.jpg",
+    "amalfi_021771_delfin.jpg",
+    "amalfi_021772_eis.jpg",
+    "amalfi_021773_pastellgreen.jpg",
+    "amalfi_021774_neo-mint.jpg",
+    "amalfi_021775_lila.jpg",
+    "amalfi_021776_petrol.jpg",
+    "amalfi_021777_sky.jpg",
+    "amalfi_021778_achat.jpg",
+  ],
+  tretford: [
+    "tretford_512_truffel.jpg",
+    "tretford_514_blauwe-distel.jpg",
+    "tretford_515_berkschors.jpg",
+    "tretford_516_blauw-druifje.jpg",
+    "tretford_517_korenbloem.jpg",
+    "tretford_519_lariks.jpg",
+    "tretford_520_klei.jpg",
+    "tretford_523_kiezel.jpg",
+    "tretford_524_aalbes.jpg",
+    "tretford_532_amandel.jpg",
+    "tretford_534_schors.jpg",
+    "tretford_538_winter.jpg",
+    "tretford_555_champignon.jpg",
+    "tretford_556_varen.jpg",
+    "tretford_558_zeewier.jpg",
+    "tretford_559_aarde.jpg",
+    "tretford_560_rogge.jpg",
+    "tretford_564_bamboe.jpg",
+    "tretford_565_den.jpg",
+    "tretford_566_broccoli.jpg",
+    "tretford_567_lupine.jpg",
+    "tretford_568_ananas.jpg",
+    "tretford_569_mos.jpg",
+    "tretford_570_aardbei.jpg",
+    "tretford_571_aardappel.jpg",
+    "tretford_572_denneappel.jpg",
+    "tretford_573_kastanje.jpg",
+    "tretford_575_blauwe-bes.jpg",
+    "tretford_580_appel.jpg",
+    "tretford_581_bosbes.jpg",
+    "tretford_582_grapefruit.jpg",
+    "tretford_584_pruim.jpg",
+    "tretford_585_mandarijn.jpg",
+    "tretford_588_bloesem.jpg",
+    "tretford_590_bruine-bonen.jpg",
+    "tretford_591_zwam.jpg",
+    "tretford_592_lavendel.jpg",
+    "tretford_601_zand.jpg",
+    "tretford_602_cashew.jpg",
+    "tretford_603_zonnebloem.jpg",
+    "tretford_611_peer.jpg",
+    "tretford_622_wasabi.jpg",
+    "tretford_632_steen.jpg",
+    "tretford_640_ijs.jpg",
+    "tretford_641_noordpool.jpg",
+    "tretford_642_tijm.jpg",
+    "tretford_643_toendra.jpg",
+    "tretford_644_aubergine.jpg",
+    "tretford_645_flamingo.jpg",
+    "tretford_646_poeder.jpg",
+    "tretford_647_parel.jpg",
   ],
 };
 
