@@ -15,7 +15,7 @@ export function SwatchGrid({ swatches, onSelect }: Props) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
-        <p className="text-text-muted font-semibold">Geen stoffen gevonden</p>
+        <p className="text-text-muted font-semibold">Geen stalen gevonden</p>
         <p className="text-text-muted text-sm mt-1">Probeer andere zoektermen of filters</p>
       </div>
     );

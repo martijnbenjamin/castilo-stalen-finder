@@ -11,8 +11,7 @@ export function Header() {
             />
           </div>
           <div className="text-right">
-            <p className="text-sm font-semibold text-text">Stoffencollectie</p>
-            <p className="text-xs text-text-muted">Vyva Fabrics</p>
+            <p className="text-sm font-semibold text-text">Stalencollectie</p>
           </div>
         </div>
       </div>

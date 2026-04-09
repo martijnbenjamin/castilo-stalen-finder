@@ -24,7 +24,7 @@
   var iframe = document.createElement("iframe");
   iframe.src = baseUrl + "/?embed";
   iframe.style.cssText = "width:100%;border:none;min-height:600px;display:block;";
-  iframe.setAttribute("title", "Castilo Stoffencollectie");
+  iframe.setAttribute("title", "Castilo Stalencollectie");
   iframe.setAttribute("loading", "lazy");
   iframe.setAttribute("allow", "clipboard-write");
 
@@ -43,7 +43,7 @@
 
     overlay.innerHTML =
       '<div id="cso-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);"></div>' +
-      '<div style="position:relative;background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);max-width:48rem;width:calc(100% - 2rem);max-height:calc(100vh - 2rem);overflow:hidden;display:flex;flex-direction:column;">' +
+      '<div style="position:relative;background:#fff;border-radius:1.5rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);max-width:48rem;width:calc(100% - 2rem);max-height:calc(100vh - 2rem);overflow-y:auto;display:flex;flex-direction:column;">' +
         // Close button
         '<button id="cso-close" style="position:absolute;top:1rem;right:1rem;z-index:10;width:2.5rem;height:2.5rem;border-radius:9999px;background:rgba(255,255,255,0.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">' +
           '<svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#718096" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>' +
@@ -67,7 +67,7 @@
               infoRow("Collectie", s.collectionLabel) +
               infoRow("Kleurgroep", s.colorGroup) +
               infoRow("Artikelcode", s.code, true) +
-              infoRow("Leverancier", "Vyva Fabrics") +
+              infoRow("Leverancier", s.leverancier || "") +
             '</div>' +
             '<div style="margin-top:2rem;">' +
               '<a href="https://www.castilo.nl/contact/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;background:#913C8F;color:#fff;font-weight:700;border-radius:0.75rem;text-decoration:none;font-size:0.875rem;">' +

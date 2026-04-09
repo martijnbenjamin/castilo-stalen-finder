@@ -59,6 +59,7 @@ function App() {
         nameLabel: swatch.nameLabel,
         code: swatch.code,
         collectionLabel: swatch.collectionLabel,
+        leverancier: swatch.leverancier,
         colorGroup: swatch.colorGroup,
         image: new URL(swatch.image, window.location.origin).href,
       },

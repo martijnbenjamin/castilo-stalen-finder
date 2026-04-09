@@ -8,6 +8,8 @@ const COLLECTION_COLORS: Record<string, { bg: string; accent: string }> = {
   vyvafabrics_freckle: { bg: "bg-purple-light", accent: "text-purple" },
   amalfi: { bg: "bg-blue-light", accent: "text-blue" },
   tretford: { bg: "bg-green-light", accent: "text-green" },
+  flotex: { bg: "bg-yellow-light", accent: "text-primary" },
+  hpl: { bg: "bg-purple-light", accent: "text-purple" },
 };
 
 interface Props {
@@ -19,10 +21,10 @@ export function CollectionCards({ collections, onSelect }: Props) {
   return (
     <section className="py-8">
       <h2 className="text-2xl sm:text-3xl font-bold text-text mb-2">
-        Ontdek onze stoffen
+        Ontdek onze stalen
       </h2>
       <p className="text-text-muted mb-6 max-w-2xl">
-        Bekijk onze complete collectie meubelbekledingen. Filter op collectie, kleur of zoek op naam of artikelcode.
+        Bekijk onze complete collectie materialen. Filter op collectie, kleur of zoek op naam of artikelcode.
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -39,6 +41,7 @@ export function CollectionCards({ collections, onSelect }: Props) {
                   <h3 className={`font-bold text-lg ${colors.accent}`}>
                     {col.label}
                   </h3>
+                  <p className="text-xs text-text-muted mt-0.5 font-medium">{col.leverancier}</p>
                   <p className="text-sm text-text-muted mt-1 leading-relaxed">
                     {col.description}
                   </p>

@@ -132,7 +132,7 @@ export function FilterBar({
       {/* Result count + clear */}
       <div className="flex items-center justify-between mt-2 text-xs text-text-muted">
         <span>
-          {resultCount} van {totalCount} stoffen
+          {resultCount} van {totalCount} stalen
         </span>
         {hasFilters && (
           <button

@@ -33,7 +33,7 @@ export function SwatchDetail({ swatch, onClose, onNavigate, hasPrev, hasNext }: 
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-3xl shadow-2xl max-w-3xl w-[calc(100%-2rem)] max-h-[calc(100vh-2rem)] overflow-hidden animate-in">
+      <div className="relative bg-white rounded-3xl shadow-2xl max-w-3xl w-[calc(100%-2rem)] max-h-[calc(100vh-2rem)] overflow-y-auto animate-in">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -46,7 +46,7 @@ export function SwatchDetail({ swatch, onClose, onNavigate, hasPrev, hasNext }: 
 
         <div className="flex flex-col md:flex-row">
           {/* Image */}
-          <div className="relative md:w-1/2 aspect-square md:aspect-auto md:min-h-[400px] bg-surface">
+          <div className="relative md:w-1/2 h-[250px] sm:h-[300px] md:h-auto md:min-h-[400px] bg-surface">
             <img
               src={swatch.image}
               alt={swatch.nameLabel}
@@ -110,7 +110,7 @@ export function SwatchDetail({ swatch, onClose, onNavigate, hasPrev, hasNext }: 
               </div>
               <div className="flex justify-between py-2 border-b border-border">
                 <span className="text-text-muted">Leverancier</span>
-                <span className="font-semibold">Vyva Fabrics</span>
+                <span className="font-semibold">{swatch.leverancier}</span>
               </div>
             </div>
 

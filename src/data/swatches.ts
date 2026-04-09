@@ -2,6 +2,7 @@ export interface Swatch {
   id: string;
   collection: string;
   collectionLabel: string;
+  leverancier: string;
   code: string;
   name: string;
   nameLabel: string;
@@ -12,6 +13,7 @@ export interface Swatch {
 export interface Collection {
   id: string;
   label: string;
+  leverancier: string;
   description: string;
   count: number;
 }
@@ -26,6 +28,8 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "rot", "kirsch",
     // Nederlands (Tretford)
     "aalbes", "aardbei", "flamingo", "bloesem",
+    // HPL
+    "antiek-roze",
   ],
   Oranje: [
     "orange", "burnt-orange", "persimmon", "nasturtium", "saffron",
@@ -43,6 +47,8 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "limone",
     // Nederlands (Tretford)
     "zonnebloem", "ananas",
+    // HPL
+    "zandgeel",
   ],
   Groen: [
     "green", "hunter-green", "empire-green", "china-green", "spruce",
@@ -56,6 +62,8 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Nederlands (Tretford)
     "varen", "zeewier", "bamboe", "broccoli", "wasabi", "tijm",
     "lariks", "appel", "den", "mos",
+    // HPL
+    "pistache-groen", "olijfgroen",
   ],
   Blauw: [
     "blue", "bright-blue", "light-blue", "marina", "bluejay",
@@ -67,6 +75,8 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "marine", "azur", "turkis",
     // Nederlands (Tretford)
     "blauw", "korenbloem", "noordpool", "winter",
+    // HPL
+    "denimblauw",
   ],
   Paars: [
     "purple", "purple-iris", "grape", "mauve", "lilac", "phoenician",
@@ -133,6 +143,23 @@ function formatCollectionLabel(id: string): string {
     vyvafabrics_silverguard: "Silverguard",
     amalfi: "Amalfi",
     tretford: "Tretford",
+    flotex: "Flotex Calgary",
+    hpl: "HPL",
+  };
+  return map[id] || id;
+}
+
+function getCollectionLeverancier(id: string): string {
+  const map: Record<string, string> = {
+    vyvafabrics_boltaflex_colourways: "Vyva Fabrics",
+    vyvafabrics_freckle: "Vyva Fabrics",
+    vyvafabrics_harlow: "Vyva Fabrics",
+    vyvafabrics_pukka: "Vyva Fabrics",
+    vyvafabrics_silverguard: "Vyva Fabrics",
+    amalfi: "Wildeman & van Leeuwen",
+    tretford: "Tretford",
+    flotex: "Forbo",
+    hpl: "Egger",
   };
   return map[id] || id;
 }
@@ -145,7 +172,9 @@ function formatCollectionDescription(id: string): string {
     vyvafabrics_pukka: "Elegante meubelstof met thee-geïnspireerde kleurnamen.",
     vyvafabrics_silverguard: "Beschermde meubelstof met vlekwerende Silverguard-technologie.",
     amalfi: "Hoogwaardige meubelstof van Wildeman & van Leeuwen. Beschikbaar in 44 kleuren.",
-    tretford: "Geweven meubelstof met Nederlandse natuurnamen. Uitgebreid kleurenpalet van 51 tinten.",
+    tretford: "Geweven tapijttegel met Nederlandse natuurnamen. Uitgebreid kleurenpalet van 51 tinten.",
+    flotex: "Vloerafwerking met de uitstraling van tapijt en het gemak van vinyl. Calgary-serie.",
+    hpl: "High Pressure Laminate (HPL) plaatmateriaal in houtdecoren en uni-kleuren.",
   };
   return map[id] || "";
 }
@@ -169,6 +198,7 @@ function parseSwatchFilename(filename: string, collectionDir: string): Swatch | 
     id: `${collectionDir}_${code}`,
     collection: collectionDir,
     collectionLabel: formatCollectionLabel(collectionDir),
+    leverancier: getCollectionLeverancier(collectionDir),
     code,
     name,
     nameLabel: formatName(name),
@@ -474,6 +504,38 @@ const SWATCH_FILES: Record<string, string[]> = {
     "tretford_646_poeder.jpg",
     "tretford_647_parel.jpg",
   ],
+  flotex: [
+    "flotex_s290004_menthol.jpg",
+    "flotex_s290006_sahara.jpg",
+    "flotex_s290010_ash.jpg",
+    "flotex_s290011_quartz.jpg",
+    "flotex_s290019_carbon.jpg",
+    "flotex_s290025_riviera.jpg",
+    "flotex_s290026_linen.jpg",
+  ],
+  hpl: [
+    "hpl_H1145_bardolino-eik.jpg",
+    "hpl_H1223_sevilla-es.jpg",
+    "hpl_H1277_lakeland-acacia-licht.jpg",
+    "hpl_H1357_spree-eik-grijs-beige.jpg",
+    "hpl_H1710_kentucky-kastanjelaar-zand.jpg",
+    "hpl_H1715_parona-walnoot.jpg",
+    "hpl_H1732_zandberk.jpg",
+    "hpl_H1910_wilg-beuk.jpg",
+    "hpl_H3157_vicenza-eik.jpg",
+    "hpl_H3158_vicenza-eik-grijs.jpg",
+    "hpl_H3170_kendal-eik.jpg",
+    "hpl_H3702_pacific-notelaar-tabak.jpg",
+    "hpl_H3734_dijon-notelaar.jpg",
+    "hpl_H3840_mandal-esdoorn-natuur.jpg",
+    "hpl_U125_zandgeel.jpg",
+    "hpl_U325_antiek-roze.jpg",
+    "hpl_U540_denimblauw.jpg",
+    "hpl_U608_pistache-groen.jpg",
+    "hpl_U640_olijfgroen.jpg",
+    "hpl_U732_stofgrijs.jpg",
+    "hpl_W1000_wit.jpg",
+  ],
 };
 
 export const swatches: Swatch[] = Object.entries(SWATCH_FILES).flatMap(
@@ -487,6 +549,7 @@ export const collections: Collection[] = Object.keys(SWATCH_FILES).map(
   (id) => ({
     id,
     label: formatCollectionLabel(id),
+    leverancier: getCollectionLeverancier(id),
     description: formatCollectionDescription(id),
     count: SWATCH_FILES[id].length,
   })
