@@ -187,7 +187,11 @@ const COLOR_OVERRIDES: Record<string, string> = {
   "vyvafabrics_boltaflex_colourways_454302": "Paars",  // grape → diep paars/pruim
   "vyvafabrics_silverguard_sg92102": "Blauw",          // coral → licht ijsblauw/mint
   "vyvafabrics_silverguard_sg93068": "Blauw",          // jet → donker petrolblauw (niet zwart)
+  "vyvafabrics_harlow_6002": "Rood",                    // guarana → bordeauxrood (niet groen)
+  "vyvafabrics_harlow_6003": "Roze",                   // swiss-chard → magenta/fuchsia (niet groen)
+  "vyvafabrics_harlow_6004": "Neutraal",               // alfalfa → grijs (niet groen)
   "vyvafabrics_harlow_6005": "Blauw",                  // acerola → blauw (niet rood)
+  "vyvafabrics_harlow_6006": "Blauw",                  // pea-flower → donkerblauw (niet groen)
   "vyvafabrics_harlow_6028": "Geel",                   // lucuma → geel (niet neutraal)
 };
 
