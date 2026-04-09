@@ -7,7 +7,9 @@ const COLOR_GROUP_DOTS: Record<string, string> = {
   Groen: "#22c55e",
   Blauw: "#3b82f6",
   Paars: "#a855f7",
+  Roze: "#ec4899",
   Bruin: "#92400e",
+  Zwart: "#1f2937",
   Neutraal: "#9ca3af",
 };
 

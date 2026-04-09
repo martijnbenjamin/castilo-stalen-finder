@@ -27,7 +27,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Duits (Amalfi)
     "rot", "kirsch",
     // Nederlands (Tretford)
-    "aalbes", "aardbei", "flamingo", "bloesem",
+    "aalbes", "aardbei",
     // HPL
     "antiek-roze",
   ],
@@ -37,7 +37,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "melon", "melba", "coral", "peach", "cobre", "safran",
     "lox", "rum-sherbet", "winter-squash", "inca-berry",
     // Duits (Amalfi)
-    "mandarijn", "grapefruit",
+    "mandarijn",
   ],
   Geel: [
     "yellow", "citrus", "lemon", "saffron-silk", "marigold",
@@ -60,8 +60,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Duits (Amalfi)
     "grun", "pistazie", "pinie", "parakeet", "mint",
     // Nederlands (Tretford)
-    "varen", "zeewier", "bamboe", "broccoli", "wasabi", "tijm",
-    "lariks", "appel", "den", "mos",
+    "varen", "broccoli", "wasabi", "appel", "den", "mos",
     // HPL
     "pistache-groen", "olijfgroen",
   ],
@@ -74,7 +73,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Duits (Amalfi)
     "marine", "azur", "turkis",
     // Nederlands (Tretford)
-    "blauw", "korenbloem", "noordpool", "winter",
+    "blauw", "korenbloem",
     // HPL
     "denimblauw",
   ],
@@ -85,7 +84,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Duits (Amalfi)
     "lila", "fuchsia",
     // Nederlands (Tretford)
-    "lupine", "pruim", "lavendel", "bosbes",
+    "aubergine",
   ],
   Bruin: [
     "brown", "oak-brown", "chocolate", "chocolat", "espresso", "expresso",
@@ -95,7 +94,7 @@ const COLOR_GROUPS: Record<string, string[]> = {
     // Duits (Amalfi)
     "hellbraun",
     // Nederlands (Tretford)
-    "truffel", "schors", "aarde", "denneappel", "kastanje", "bruin",
+    "aarde", "denneappel", "kastanje",
     // HPL houtdecoren
     "bardolino", "sevilla", "parona", "walnoot", "notelaar", "dijon",
     "wilg-beuk",
@@ -110,14 +109,80 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "lucuma", "nigella", "vanilla-chai", "chamomille", "jasmin",
     "flax-seed", "tocos", "buckweed", "peru-maca", "lentils",
     "chia-seed", "black-soybean",
-    // Duits (Amalfi)
+    // Duits (Amalfi) — eis, achat, vanille via COLOR_OVERRIDES
     "weiss", "leinen", "buche", "auster", "titan", "grau",
-    "vanille", "anthrazit", "cashmere", "delfin", "eis", "achat",
-    // Nederlands (Tretford)
-    "berkschors", "klei", "kiezel", "champignon", "rogge", "zwam",
-    "zand", "cashew", "steen", "ijs", "toendra", "parel", "poeder",
-    "aardappel", "peer", "amandel",
+    "anthrazit", "cashmere", "delfin",
+    // Nederlands (Tretford) — meeste via COLOR_OVERRIDES
+    "zand", "parel", "poeder",
   ],
+};
+
+// Handmatige kleurgroep-overrides voor stalen waar de naam niet de kleur beschrijft.
+// Key = "{collection}_{code}", value = correcte kleurgroep.
+const COLOR_OVERRIDES: Record<string, string> = {
+  // --- Tretford ---
+  "tretford_512": "Neutraal",      // truffel → donkergrijs/zwart
+  "tretford_515": "Neutraal",      // berkschors → grijs
+  "tretford_519": "Neutraal",      // lariks → grijs
+  "tretford_520": "Blauw",         // klei → blauwgrijs
+  "tretford_523": "Neutraal",      // kiezel → grijs
+  "tretford_524": "Rood",          // aalbes → framboosrood
+  "tretford_532": "Bruin",         // amandel → goudbruin
+  "tretford_534": "Neutraal",      // schors → donker antraciet
+  "tretford_538": "Neutraal",      // winter → grijsbruin
+  "tretford_555": "Bruin",         // champignon → warm bruin/beige
+  "tretford_558": "Blauw",         // zeewier → teal/blauwgroen
+  "tretford_559": "Oranje",        // aarde → warm oranjebruin
+  "tretford_560": "Geel",          // rogge → olijf/geelgroen
+  "tretford_564": "Bruin",         // bamboe → warm bruin/goud
+  "tretford_568": "Geel",          // ananas → goudgeel
+  "tretford_571": "Neutraal",      // aardappel → grijsbruin
+  "tretford_572": "Bruin",         // denneappel → donkerbruin
+  "tretford_573": "Bruin",         // kastanje → donkerbruin
+  "tretford_575": "Blauw",         // blauwe-bes → blauw
+  "tretford_580": "Groen",         // appel → heldergroen
+  "tretford_581": "Paars",         // bosbes → donker paars/mauve
+  "tretford_582": "Rood",          // grapefruit → roodoranje
+  "tretford_584": "Blauw",         // pruim → donker marineblauw
+  "tretford_585": "Oranje",        // mandarijn → fel oranje
+  "tretford_588": "Roze",          // bloesem → stoffig roze
+  "tretford_590": "Blauw",         // bruine-bonen → donker blauwgrijs
+  "tretford_591": "Oranje",        // zwam → warm koper/oranjebruin
+  "tretford_592": "Blauw",         // lavendel → middenblauw
+  "tretford_601": "Neutraal",      // zand → grijs
+  "tretford_602": "Bruin",         // cashew → warm bruin
+  "tretford_603": "Geel",          // zonnebloem → goud/ambergeel
+  "tretford_611": "Neutraal",      // peer → grijsbeige
+  "tretford_622": "Groen",         // wasabi → groen
+  "tretford_632": "Zwart",         // steen → zeer donker antraciet/zwart
+  "tretford_640": "Neutraal",      // ijs → lichtgrijs
+  "tretford_641": "Blauw",         // noordpool → licht blauwgrijs
+  "tretford_642": "Neutraal",      // tijm → grijsgroen (overwegend grijs)
+  "tretford_643": "Groen",         // toendra → olijf/geelgroen
+  "tretford_644": "Paars",         // aubergine → donker paars
+  "tretford_645": "Roze",          // flamingo → warm roze/zalm
+  "tretford_646": "Neutraal",      // poeder → beige/taupe
+  "tretford_647": "Neutraal",      // parel → grijsbruin
+
+  // --- Flotex ---
+  "flotex_s290004": "Groen",       // menthol → teal/saliegroen
+  "flotex_s290006": "Bruin",       // sahara → warm zand/beigebruin
+  "flotex_s290010": "Zwart",       // ash → zeer donker antraciet
+  "flotex_s290011": "Neutraal",    // quartz → grijs
+  "flotex_s290019": "Neutraal",    // carbon → middengrijs
+  "flotex_s290025": "Blauw",       // riviera → blauw
+  "flotex_s290026": "Neutraal",    // linen → warm grijs/taupe
+
+  // --- Amalfi (probleemstalen) ---
+  "amalfi_021772": "Blauw",        // eis → licht mintblauw (niet rood!)
+  "amalfi_021778": "Groen",        // achat → mintgroen (niet neutraal)
+  "amalfi_014131": "Geel",         // vanille → lichtgeel (niet neutraal)
+
+  // --- Vyva Fabrics (probleemstalen) ---
+  "vyvafabrics_boltaflex_colourways_454302": "Paars",  // grape → diep paars/pruim
+  "vyvafabrics_silverguard_sg92102": "Blauw",          // coral → licht ijsblauw/mint
+  "vyvafabrics_harlow_6005": "Blauw",                  // acerola → blauw (niet rood)
+  "vyvafabrics_harlow_6028": "Geel",                   // lucuma → geel (niet neutraal)
 };
 
 function getColorGroup(name: string): string {
@@ -209,7 +274,7 @@ function parseSwatchFilename(filename: string, collectionDir: string): Swatch | 
     code,
     name,
     nameLabel: formatName(name),
-    colorGroup: getColorGroup(name),
+    colorGroup: COLOR_OVERRIDES[`${collectionDir}_${code}`] || getColorGroup(name),
     image: `/swatches/${collectionDir}/${filename}`,
   };
 }
@@ -562,4 +627,10 @@ export const collections: Collection[] = Object.keys(SWATCH_FILES).map(
   })
 );
 
-export const colorGroups = Object.keys(COLOR_GROUPS);
+// Vaste volgorde van kleurgroepen (inclusief Roze en Zwart uit overrides)
+const COLOR_GROUP_ORDER = [
+  "Rood", "Oranje", "Geel", "Groen", "Blauw", "Paars", "Roze", "Bruin", "Zwart", "Neutraal",
+];
+export const colorGroups = COLOR_GROUP_ORDER.filter((g) =>
+  swatches.some((s) => s.colorGroup === g)
+);
