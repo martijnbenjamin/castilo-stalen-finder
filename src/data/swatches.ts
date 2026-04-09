@@ -96,6 +96,9 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "hellbraun",
     // Nederlands (Tretford)
     "truffel", "schors", "aarde", "denneappel", "kastanje", "bruin",
+    // HPL houtdecoren
+    "bardolino", "sevilla", "parona", "walnoot", "notelaar", "dijon",
+    "wilg-beuk",
   ],
   Neutraal: [
     "white", "snow-white", "black", "grey", "light-grey", "ocean-grey",
@@ -120,7 +123,11 @@ const COLOR_GROUPS: Record<string, string[]> = {
 function getColorGroup(name: string): string {
   const lower = name.toLowerCase();
   for (const [group, keywords] of Object.entries(COLOR_GROUPS)) {
-    if (keywords.some((kw) => lower.includes(kw) || kw.includes(lower))) {
+    if (keywords.some((kw) => {
+      // Korte keywords (<=3 chars) alleen exact matchen om valse substring-hits te voorkomen
+      if (kw.length <= 3) return lower === kw;
+      return lower.includes(kw) || kw.includes(lower);
+    })) {
       return group;
     }
   }
