@@ -99,19 +99,24 @@ const COLOR_GROUPS: Record<string, string[]> = {
     "bardolino", "sevilla", "parona", "walnoot", "notelaar", "dijon",
     "wilg-beuk",
   ],
+  Zwart: [
+    "black", "coal", "jet", "slate", "carbon", "black-soybean", "nigella",
+    // Duits (Amalfi)
+    "anthrazit",
+  ],
   Neutraal: [
-    "white", "snow-white", "black", "grey", "light-grey", "ocean-grey",
-    "coal", "natural", "quartz", "moonglow", "slate", "beige",
+    "white", "snow-white", "grey", "light-grey", "ocean-grey",
+    "natural", "quartz", "moonglow", "beige",
     "cream", "champagne", "oatmeal", "macadamia", "sandstone",
     "taupe", "sisal", "icecream", "aluminium", "ice", "plata",
     "storm", "graphite", "titanium", "sterling", "shiitake",
-    "meteor", "carbon", "jet", "windy", "smog", "coconut",
-    "lucuma", "nigella", "vanilla-chai", "chamomille", "jasmin",
+    "meteor", "windy", "smog", "coconut",
+    "lucuma", "vanilla-chai", "chamomille", "jasmin",
     "flax-seed", "tocos", "buckweed", "peru-maca", "lentils",
-    "chia-seed", "black-soybean",
+    "chia-seed",
     // Duits (Amalfi) — eis, achat, vanille via COLOR_OVERRIDES
     "weiss", "leinen", "buche", "auster", "titan", "grau",
-    "anthrazit", "cashmere", "delfin",
+    "cashmere", "delfin",
     // Nederlands (Tretford) — meeste via COLOR_OVERRIDES
     "zand", "parel", "poeder",
   ],
@@ -169,7 +174,7 @@ const COLOR_OVERRIDES: Record<string, string> = {
   "flotex_s290006": "Bruin",       // sahara → warm zand/beigebruin
   "flotex_s290010": "Zwart",       // ash → zeer donker antraciet
   "flotex_s290011": "Neutraal",    // quartz → grijs
-  "flotex_s290019": "Neutraal",    // carbon → middengrijs
+  "flotex_s290019": "Neutraal",    // carbon → middengrijs (niet zwart)
   "flotex_s290025": "Blauw",       // riviera → blauw
   "flotex_s290026": "Neutraal",    // linen → warm grijs/taupe
 
@@ -181,6 +186,7 @@ const COLOR_OVERRIDES: Record<string, string> = {
   // --- Vyva Fabrics (probleemstalen) ---
   "vyvafabrics_boltaflex_colourways_454302": "Paars",  // grape → diep paars/pruim
   "vyvafabrics_silverguard_sg92102": "Blauw",          // coral → licht ijsblauw/mint
+  "vyvafabrics_silverguard_sg93068": "Blauw",          // jet → donker petrolblauw (niet zwart)
   "vyvafabrics_harlow_6005": "Blauw",                  // acerola → blauw (niet rood)
   "vyvafabrics_harlow_6028": "Geel",                   // lucuma → geel (niet neutraal)
 };
