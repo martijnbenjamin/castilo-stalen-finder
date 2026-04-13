@@ -140,15 +140,18 @@
     if (window.innerWidth < 768) {
       content.style.flexDirection = "column";
       imageWrap.style.width = "100%";
-      imageWrap.style.minHeight = "250px";
-      imageWrap.style.maxHeight = "300px";
+      imageWrap.style.height = Math.min(220, Math.round(window.innerHeight * 0.27)) + "px";
+      imageWrap.style.minHeight = "";
+      imageWrap.style.maxHeight = "";
+      imageWrap.style.flexShrink = "0";
       var infoDiv = content.children[1];
       if (infoDiv) infoDiv.style.width = "100%";
     } else {
       content.style.flexDirection = "row";
       imageWrap.style.width = "50%";
+      imageWrap.style.height = "";
       imageWrap.style.minHeight = "400px";
-      imageWrap.style.maxHeight = "none";
+      imageWrap.style.maxHeight = "";
       var infoDiv = content.children[1];
       if (infoDiv) infoDiv.style.width = "50%";
     }
