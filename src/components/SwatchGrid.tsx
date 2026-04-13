@@ -61,10 +61,10 @@ function SwatchCard({ swatch, onSelect }: { swatch: Swatch; onSelect: (s: Swatch
           }`}
         />
         {/* Hover overlay met code kopieer-knop */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-2.5">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-2.5 pointer-events-none">
           <button
             onClick={handleCopyCode}
-            className={`flex items-center gap-1.5 self-start px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-all duration-200 cursor-pointer ${
+            className={`pointer-events-auto flex items-center gap-1.5 self-start px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-all duration-200 cursor-pointer ${
               copied
                 ? "bg-green/90 text-white"
                 : "bg-white/95 text-text hover:bg-white"
