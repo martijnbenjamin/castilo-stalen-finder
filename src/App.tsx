@@ -5,7 +5,7 @@ import { Header } from "./components/Header";
 import { FilterBar } from "./components/FilterBar";
 import { SwatchGrid } from "./components/SwatchGrid";
 import { SwatchDetail } from "./components/SwatchDetail";
-import { CollectionCards } from "./components/CollectionCards";
+import { CollectionSidebar } from "./components/CollectionSidebar";
 
 const isEmbed = new URLSearchParams(window.location.search).has("embed");
 
@@ -114,32 +114,47 @@ function App() {
     <div className={`bg-white ${isEmbed ? "min-h-0" : "min-h-screen"}`}>
       {!isEmbed && <Header />}
 
-      <main className={`mx-auto px-4 sm:px-6 lg:px-8 pb-12 ${isEmbed ? "pt-2 max-w-none" : "max-w-7xl"}`}>
-        {/* Collection overview when no filters active */}
-        {!hasFilters && (
-          <CollectionCards
+      <main className={`mx-auto px-4 sm:px-6 lg:px-8 pb-12 ${isEmbed ? "pt-2 max-w-none" : "max-w-7xl pt-6"}`}>
+
+        {/* Mobiel: collectierij boven de filterbalk */}
+        <div className="md:hidden mb-3">
+          <CollectionSidebar
             collections={collections}
+            selected={selectedCollection}
             onSelect={setSelectedCollection}
+            totalCount={swatches.length}
           />
-        )}
+        </div>
 
-        <FilterBar
-          search={search}
-          onSearchChange={setSearch}
-          selectedCollection={selectedCollection}
-          onCollectionChange={setSelectedCollection}
-          selectedColorGroup={selectedColorGroup}
-          onColorGroupChange={setSelectedColorGroup}
-          collections={collections}
-          colorGroups={colorGroups}
-          resultCount={filtered.length}
-          totalCount={swatches.length}
-          hasFilters={hasFilters}
-          onClearFilters={clearFilters}
-          isEmbed={isEmbed}
-        />
+        {/* Twee-koloms layout: sidebar links + content rechts */}
+        <div className="flex gap-8">
 
-        <SwatchGrid swatches={filtered} onSelect={handleSelect} />
+          {/* Desktop sidebar */}
+          <CollectionSidebar
+            collections={collections}
+            selected={selectedCollection}
+            onSelect={setSelectedCollection}
+            totalCount={swatches.length}
+          />
+
+          {/* Hoofd-inhoud */}
+          <div className="flex-1 min-w-0">
+            <FilterBar
+              search={search}
+              onSearchChange={setSearch}
+              selectedColorGroup={selectedColorGroup}
+              onColorGroupChange={setSelectedColorGroup}
+              colorGroups={colorGroups}
+              resultCount={filtered.length}
+              totalCount={swatches.length}
+              hasFilters={hasFilters}
+              onClearFilters={clearFilters}
+              isEmbed={isEmbed}
+            />
+            <SwatchGrid swatches={filtered} onSelect={handleSelect} />
+          </div>
+
+        </div>
       </main>
 
       {/* Only show modal inside app when NOT in embed mode */}

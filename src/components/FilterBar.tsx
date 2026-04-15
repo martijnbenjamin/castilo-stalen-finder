@@ -16,11 +16,8 @@ const COLOR_GROUP_DOTS: Record<string, string> = {
 interface Props {
   search: string;
   onSearchChange: (v: string) => void;
-  selectedCollection: string | null;
-  onCollectionChange: (v: string | null) => void;
   selectedColorGroup: string | null;
   onColorGroupChange: (v: string | null) => void;
-  collections: Collection[];
   colorGroups: string[];
   resultCount: number;
   totalCount: number;
@@ -32,11 +29,8 @@ interface Props {
 export function FilterBar({
   search,
   onSearchChange,
-  selectedCollection,
-  onCollectionChange,
   selectedColorGroup,
   onColorGroupChange,
-  collections,
   colorGroups,
   resultCount,
   totalCount,
@@ -45,7 +39,7 @@ export function FilterBar({
   isEmbed = false,
 }: Props) {
   return (
-    <div className={`sticky ${isEmbed ? "top-0" : "top-16 sm:top-20"} z-20 bg-white/95 backdrop-blur-sm border-b border-border -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3`}>
+    <div className={`sticky ${isEmbed ? "top-0" : "top-16 sm:top-20"} z-20 bg-white/95 backdrop-blur-sm border-b border-border py-3`}>
       {/* Search */}
       <div className="relative mb-3">
         <svg
@@ -80,55 +74,27 @@ export function FilterBar({
         )}
       </div>
 
-      {/* Filter chips row */}
-      <div className="flex flex-wrap items-center gap-2">
-        {/* Collection filters */}
-        <div className="flex flex-wrap gap-1.5">
-          {collections.map((col) => (
-            <button
-              key={col.id}
-              onClick={() =>
-                onCollectionChange(
-                  selectedCollection === col.id ? null : col.id
-                )
-              }
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                selectedCollection === col.id
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-surface text-text-muted hover:bg-surface-hover hover:text-text"
-              }`}
-            >
-              {col.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="w-px h-5 bg-border hidden sm:block" />
-
-        {/* Color group filters */}
-        <div className="flex flex-wrap gap-1.5">
-          {colorGroups.map((group) => (
-            <button
-              key={group}
-              onClick={() =>
-                onColorGroupChange(
-                  selectedColorGroup === group ? null : group
-                )
-              }
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                selectedColorGroup === group
-                  ? "bg-primary text-white shadow-sm"
-                  : "bg-surface text-text-muted hover:bg-surface-hover hover:text-text"
-              }`}
-            >
-              <span
-                className="w-2.5 h-2.5 rounded-full shrink-0"
-                style={{ backgroundColor: COLOR_GROUP_DOTS[group] }}
-              />
-              {group}
-            </button>
-          ))}
-        </div>
+      {/* Kleurgroep filters */}
+      <div className="flex flex-wrap gap-1.5">
+        {colorGroups.map((group) => (
+          <button
+            key={group}
+            onClick={() =>
+              onColorGroupChange(selectedColorGroup === group ? null : group)
+            }
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              selectedColorGroup === group
+                ? "bg-primary text-white shadow-sm"
+                : "bg-surface text-text-muted hover:bg-surface-hover hover:text-text"
+            }`}
+          >
+            <span
+              className="w-2.5 h-2.5 rounded-full shrink-0"
+              style={{ backgroundColor: COLOR_GROUP_DOTS[group] }}
+            />
+            {group}
+          </button>
+        ))}
       </div>
 
       {/* Result count + clear */}
