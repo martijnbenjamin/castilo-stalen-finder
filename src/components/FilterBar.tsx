@@ -1,5 +1,3 @@
-import type { Collection } from "../data/swatches";
-
 const COLOR_GROUP_DOTS: Record<string, string> = {
   Rood: "#dc2626",
   Oranje: "#f97316",
