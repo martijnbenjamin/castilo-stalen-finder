@@ -116,18 +116,8 @@ function App() {
 
       <main className={`mx-auto px-4 sm:px-6 lg:px-8 pb-12 ${isEmbed ? "pt-2 max-w-none" : "max-w-7xl pt-6"}`}>
 
-        {/* Mobiel: collectierij boven de filterbalk */}
-        <div className="md:hidden mb-3">
-          <CollectionSidebar
-            collections={collections}
-            selected={selectedCollection}
-            onSelect={setSelectedCollection}
-            totalCount={swatches.length}
-          />
-        </div>
-
-        {/* Twee-koloms layout: sidebar links + content rechts */}
-        <div className="flex gap-8">
+        {/* Layout: mobiel = kolom, desktop = rij met sidebar */}
+        <div className="flex flex-col md:flex-row gap-3 md:gap-8">
 
           {/* Desktop sidebar */}
           <CollectionSidebar

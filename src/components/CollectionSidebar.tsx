@@ -11,7 +11,7 @@ export function CollectionSidebar({ collections, selected, onSelect, totalCount 
   return (
     <>
       {/* Mobile: horizontale scroll-rij */}
-      <div className="md:hidden flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 scrollbar-hide">
+      <div className="flex md:hidden gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 scrollbar-hide">
         <button
           onClick={() => onSelect(null)}
           className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
