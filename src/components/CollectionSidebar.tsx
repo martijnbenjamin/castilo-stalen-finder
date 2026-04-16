@@ -8,6 +8,9 @@ interface Props {
 }
 
 export function CollectionSidebar({ collections, selected, onSelect, totalCount }: Props) {
+  const bekledingen = collections.filter((c) => c.section === "bekledingen");
+  const verfkleuren = collections.filter((c) => c.section === "verfkleuren");
+
   return (
     <>
       {/* Mobile: horizontale scroll-rij */}
@@ -39,10 +42,8 @@ export function CollectionSidebar({ collections, selected, onSelect, totalCount 
 
       {/* Desktop: verticale sidebar */}
       <aside className="hidden md:block w-44 lg:w-52 shrink-0 self-start sticky top-24">
-        <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-2 px-3">
-          Collecties
-        </p>
-        <ul className="space-y-0.5">
+        {/* Alle collecties */}
+        <ul className="space-y-0.5 mb-3">
           <li>
             <button
               onClick={() => onSelect(null)}
@@ -58,7 +59,14 @@ export function CollectionSidebar({ collections, selected, onSelect, totalCount 
               </span>
             </button>
           </li>
-          {collections.map((col) => (
+        </ul>
+
+        {/* Bekledingen */}
+        <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1.5 px-3">
+          Bekledingen
+        </p>
+        <ul className="space-y-0.5 mb-4">
+          {bekledingen.map((col) => (
             <li key={col.id}>
               <button
                 onClick={() => onSelect(selected === col.id ? null : col.id)}
@@ -76,6 +84,32 @@ export function CollectionSidebar({ collections, selected, onSelect, totalCount 
             </li>
           ))}
         </ul>
+
+        {/* Verfkleuren */}
+        <div className="border-t border-border pt-3">
+          <p className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1.5 px-3">
+            Verfkleuren
+          </p>
+          <ul className="space-y-0.5">
+            {verfkleuren.map((col) => (
+              <li key={col.id}>
+                <button
+                  onClick={() => onSelect(selected === col.id ? null : col.id)}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all flex items-center justify-between group ${
+                    selected === col.id
+                      ? "bg-primary/10 text-primary font-semibold"
+                      : "text-text-muted font-medium hover:bg-surface hover:text-text"
+                  }`}
+                >
+                  <span className="truncate mr-2">{col.label}</span>
+                  <span className={`text-xs shrink-0 ${selected === col.id ? "text-primary/70" : "opacity-40 group-hover:opacity-60"}`}>
+                    {col.count}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </aside>
     </>
   );

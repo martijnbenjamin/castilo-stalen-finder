@@ -16,6 +16,7 @@ export interface Collection {
   leverancier: string;
   description: string;
   count: number;
+  section: "bekledingen" | "verfkleuren";
 }
 
 const COLOR_GROUPS: Record<string, string[]> = {
@@ -620,22 +621,135 @@ const SWATCH_FILES: Record<string, string[]> = {
   ],
 };
 
-export const swatches: Swatch[] = Object.entries(SWATCH_FILES).flatMap(
-  ([collectionDir, files]) =>
-    files
-      .map((f) => parseSwatchFilename(f, collectionDir))
-      .filter((s): s is Swatch => s !== null)
+// ─── Verfkleuren ──────────────────────────────────────────────────────────────
+
+// [code, nameLabel, colorGroup, collectionId, imageFilename]
+const VERF_SWATCH_DEFS: [string, string, string, string, string][] = [
+  // Standaard
+  ["00", "Naturel",       "Neutraal", "verf_standaard", "00-naturel.jpg"],
+  ["01", "Wit",           "Neutraal", "verf_standaard", "01-wit.jpg"],
+  ["05", "Licht Blauw",   "Blauw",    "verf_standaard", "05-licht-blauw.jpg"],
+  ["10", "Donker Blauw",  "Blauw",    "verf_standaard", "10-donker-blauw.jpg"],
+  ["15", "Midden Blauw",  "Blauw",    "verf_standaard", "15-midden-blauw.jpg"],
+  ["20", "Paars",         "Paars",    "verf_standaard", "20-paars.jpg"],
+  ["25", "Lila",          "Paars",    "verf_standaard", "25-lila.jpg"],
+  ["27", "Roze",          "Roze",     "verf_standaard", "27-roze.jpg"],
+  ["30", "Rood",          "Rood",     "verf_standaard", "30-rood.jpg"],
+  ["35", "Oranje",        "Oranje",   "verf_standaard", "35-oranje.jpg"],
+  ["40", "Oker Geel",     "Geel",     "verf_standaard", "40-oker-geel.jpg"],
+  ["45", "Geel",          "Geel",     "verf_standaard", "45-geel.jpg"],
+  ["50", "Licht Groen",   "Groen",    "verf_standaard", "50-licht-groen.jpg"],
+  ["51", "Donker Groen",  "Groen",    "verf_standaard", "51-donker-groen.jpg"],
+  ["55", "Lime Groen",    "Groen",    "verf_standaard", "55-lime-groen.jpg"],
+  ["60", "Turquoise",     "Blauw",    "verf_standaard", "60-turquoise.jpg"],
+  ["65", "Grijs",         "Neutraal", "verf_standaard", "65-grijs.jpg"],
+  ["70", "Antraciet",     "Neutraal", "verf_standaard", "70-antraciet.jpg"],
+  ["75", "Zwart",         "Zwart",    "verf_standaard", "75-zwart.jpg"],
+  // Buiten
+  ["B5", "B5",  "Geel",    "verf_buiten",       "B5-buiten.jpg"],
+  ["B6", "B6",  "Neutraal","verf_buiten",        "B6-buiten.jpg"],
+  ["B7", "B7",  "Groen",   "verf_buiten",        "B7-buiten.jpg"],
+  ["B8", "B8",  "Groen",   "verf_buiten",        "B8-buiten.jpg"],
+  // Chysty
+  ["C33","C33", "Neutraal","verf_chysty",        "C33-chysty.jpg"],
+  ["C34","C34", "Neutraal","verf_chysty",        "C34-chysty.jpg"],
+  ["C35","C35", "Neutraal","verf_chysty",        "C35-chysty.jpg"],
+  ["C36","C36", "Zwart",   "verf_chysty",        "C36-chysty.jpg"],
+  // Fjord
+  ["F29","F29", "Neutraal","verf_fjord",         "F29-fjord.jpg"],
+  ["F30","F30", "Neutraal","verf_fjord",         "F30-fjord.jpg"],
+  ["F31","F31", "Groen",   "verf_fjord",         "F31-fjord.jpg"],
+  ["F32","F32", "Blauw",   "verf_fjord",         "F32-fjord.jpg"],
+  // Heart Wood
+  ["H9", "H9",  "Neutraal","verf_heartwood",     "H9-heart-wood.jpg"],
+  ["H10","H10", "Bruin",   "verf_heartwood",     "H10-heart-wood.jpg"],
+  ["H11","H11", "Neutraal","verf_heartwood",     "H11-heart-wood.jpg"],
+  ["H12","H12", "Neutraal","verf_heartwood",     "H12-heart-wood.jpg"],
+  // Jade
+  ["J25","J25", "Neutraal","verf_jade",          "J25-jade.jpg"],
+  ["J26","J26", "Groen",   "verf_jade",          "J26-jade.jpg"],
+  ["J27","J27", "Groen",   "verf_jade",          "J27-jade.jpg"],
+  ["J28","J28", "Zwart",   "verf_jade",          "J28-jade.jpg"],
+  // Lief
+  ["L21","L21", "Neutraal","verf_lief",          "L21-lief.jpg"],
+  ["L22","L22", "Blauw",   "verf_lief",          "L22-lief.jpg"],
+  ["L23","L23", "Neutraal","verf_lief",          "L23-lief.jpg"],
+  ["L24","L24", "Neutraal","verf_lief",          "L24-lief.jpg"],
+  // Samen Spelen
+  ["S01","S01", "Blauw",   "verf_samenspelen",   "S01-samen-spelen.jpg"],
+  ["S02","S02", "Roze",    "verf_samenspelen",   "S02-samen-spelen.jpg"],
+  ["S03","S03", "Blauw",   "verf_samenspelen",   "S03-samen-spelen.jpg"],
+  ["S04","S04", "Blauw",   "verf_samenspelen",   "S04-samen-spelen.jpg"],
+  // Strand
+  ["S13","S13", "Neutraal","verf_strand",        "S13-strand.jpg"],
+  ["S14","S14", "Neutraal","verf_strand",        "S14-strand.jpg"],
+  ["S15","S15", "Groen",   "verf_strand",        "S15-strand.jpg"],
+  ["S16","S16", "Blauw",   "verf_strand",        "S16-strand.jpg"],
+  // Warm
+  ["W17","W17", "Roze",    "verf_warm",          "W17-warm.jpg"],
+  ["W18","W18", "Geel",    "verf_warm",          "W18-warm.jpg"],
+  ["W19","W19", "Neutraal","verf_warm",          "W19-warm.jpg"],
+  ["W20","W20", "Bruin",   "verf_warm",          "W20-warm.jpg"],
+];
+
+const VERF_COLLECTION_META: Record<string, { label: string; count: number }> = {
+  verf_standaard:  { label: "Standaard",    count: 19 },
+  verf_buiten:     { label: "Buiten",       count: 4  },
+  verf_chysty:     { label: "Chysty",       count: 4  },
+  verf_fjord:      { label: "Fjord",        count: 4  },
+  verf_heartwood:  { label: "Heart Wood",   count: 4  },
+  verf_jade:       { label: "Jade",         count: 4  },
+  verf_lief:       { label: "Lief",         count: 4  },
+  verf_samenspelen:{ label: "Samen Spelen", count: 4  },
+  verf_strand:     { label: "Strand",       count: 4  },
+  verf_warm:       { label: "Warm",         count: 4  },
+};
+
+const verfSwatches: Swatch[] = VERF_SWATCH_DEFS.map(([code, nameLabel, colorGroup, collection, filename]) => ({
+  id: `${collection}_${code}`,
+  collection,
+  collectionLabel: VERF_COLLECTION_META[collection]?.label ?? collection,
+  leverancier: "",
+  code,
+  name: nameLabel.toLowerCase().replace(/\s+/g, "-"),
+  nameLabel,
+  colorGroup,
+  image: `/swatches/verf/${filename}`,
+}));
+
+const verfCollections: Collection[] = Object.entries(VERF_COLLECTION_META).map(
+  ([id, { label, count }]) => ({
+    id,
+    label,
+    leverancier: "",
+    description: "",
+    count,
+    section: "verfkleuren" as const,
+  })
 );
 
-export const collections: Collection[] = Object.keys(SWATCH_FILES).map(
-  (id) => ({
+// ──────────────────────────────────────────────────────────────────────────────
+
+export const collections: Collection[] = [
+  ...Object.keys(SWATCH_FILES).map((id) => ({
     id,
     label: formatCollectionLabel(id),
     leverancier: getCollectionLeverancier(id),
     description: formatCollectionDescription(id),
     count: SWATCH_FILES[id].length,
-  })
-);
+    section: "bekledingen" as const,
+  })),
+  ...verfCollections,
+];
+
+export const swatches: Swatch[] = [
+  ...Object.entries(SWATCH_FILES).flatMap(([collectionDir, files]) =>
+    files
+      .map((f) => parseSwatchFilename(f, collectionDir))
+      .filter((s): s is Swatch => s !== null)
+  ),
+  ...verfSwatches,
+];
 
 // Vaste volgorde van kleurgroepen (inclusief Roze en Zwart uit overrides)
 const COLOR_GROUP_ORDER = [
