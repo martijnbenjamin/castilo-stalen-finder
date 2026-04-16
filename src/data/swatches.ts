@@ -225,9 +225,9 @@ function formatCollectionLabel(id: string): string {
     vyvafabrics_pukka: "Pukka",
     vyvafabrics_silverguard: "Silverguard",
     amalfi: "Amalfi",
-    tretford: "Tretford",
-    flotex: "Flotex Calgary",
-    hpl: "HPL",
+    tretford: "Tretford Tapijt",
+    flotex: "Flotex Tapijt",
+    hpl: "Hout decors",
   };
   return map[id] || id;
 }
