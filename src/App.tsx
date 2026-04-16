@@ -18,7 +18,11 @@ function App() {
   const filtered = useMemo(() => {
     let result = swatches;
     if (selectedCollection) {
-      result = result.filter((s) => s.collection === selectedCollection);
+      if (selectedCollection === "verf_alle") {
+        result = result.filter((s) => s.collection.startsWith("verf_"));
+      } else {
+        result = result.filter((s) => s.collection === selectedCollection);
+      }
     }
     if (selectedColorGroup) {
       result = result.filter((s) => s.colorGroup === selectedColorGroup);
